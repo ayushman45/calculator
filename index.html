@@ -1,0 +1,256 @@
+<html>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
+		<title>calculator</title>
+        <style>
+            body{
+	font-family: 'Open Sans',sans-serif;
+	background-color: black;
+}
+#container{
+	width: 1000px;
+	height: 550px;
+	background-color: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3));
+	margin: 20px auto;	
+}
+#calculator{
+	width: 320px;
+	height: 520px;
+	background-color: #eaedef;
+	margin: 0 auto;
+	top: 20px;
+	position: relative;
+	border-radius: 5px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#result{
+	height: 120px;
+}
+#calc{
+	text-align: right;
+	height: 20px;
+	margin: 0 20px;
+	padding-top: 20px;
+	font-size: 15px;
+	color: #919191;
+}
+#output{
+	text-align: right;
+	height: 60px;
+	margin: 10px 20px;
+	font-size: 30px;
+}
+#keyboard{
+	height: 400px;
+}
+.op, .number, .turnoff{
+	width: 50px;
+	height: 50px;
+	margin: 15px;
+	float: left;
+	border-radius: 50%;
+	border-width: 0;
+	font-weight: bold;
+	font-size: 15px;
+}
+.turnoff{
+   background-color: maroon; 
+   color: white;
+}
+.number{
+	background-color: #919191;
+}
+.number, .op{
+	cursor: pointer;
+}
+.op:active, .number:active{
+	font-size: 13px;
+}
+.op:focus, .number:focus, .turnoff:focus{
+	outline: 0;
+}
+button:nth-child(1){
+	font-size: 20px;
+	background-color: blueviolet;
+}
+button:nth-child(2){
+	font-size: 20px;
+	background-color: blueviolet;
+}
+button:nth-child(3){
+	font-size: 20px;
+	background-color: blueviolet;
+}
+button:nth-child(4){
+	font-size: 20px;
+	background-color: blueviolet;
+}
+button:nth-child(8){
+	font-size: 20px;
+	background-color: blueviolet;
+}
+button:nth-child(12){
+	font-size: 20px;
+	background-color: blueviolet;
+}
+button:nth-child(16){
+	font-size: 20px;
+	background-color: blueviolet;
+}
+button:nth-child(20){
+	font-size: 20px;
+	background-color: blueviolet;
+}
+#heading{
+    color: whitesmoke;
+    font-size: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 20px;
+    text-align: center;
+}
+#foot{
+    color: white;
+    font-family: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    padding: 50px;
+}
+.fade{
+    background-color: white;
+}
+        </style>
+	</head>
+	<body>
+        
+		<div id="container">
+            <h1 id="heading">Calculator</h1>
+			<div id="calculator">
+				<div id="result">
+					<div id="calc">
+						<p id="calctext"></p>
+					</div>
+					<div id="output">
+						<p id="answer"></p>
+					</div>
+				</div>
+				<div id="keyboard">
+					<button class="op" id="clear">C</button>
+					<button class="op" id="backspace">CE</button>
+					<button class="op" id="%">%</button>
+					<button class="op" id="/">&#247;</button>
+					<button class="number" id="7">7</button>
+					<button class="number" id="8">8</button>
+					<button class="number" id="9">9</button>
+					<button class="op" id="*">&times;</button>
+					<button class="number" id="4">4</button>
+					<button class="number" id="5">5</button>
+					<button class="number" id="6">6</button>
+					<button class="op" id="-">-</button>
+					<button class="number" id="1">1</button>
+					<button class="number" id="2">2</button>
+					<button class="number" id="3">3</button>
+					<button class="op" id="+">+</button>
+					<button class="turnoff" id="turnoff">OFF</button>
+					<button class="number" id="0">0</button>
+                    <button class="number" id="00">00</button>
+					<button class="op" id="=">=</button>
+				</div>
+			</div>
+            <h3 id="foot">Made with ❤️️ by Ayushman</h3>
+		</div>
+		<script>
+            /*
+            *Made by Ayushman Manishankar
+            *With a little bit help from W3Schools
+            */
+            document.getElementById('turnoff').addEventListener('click',function(){
+                document.querySelector("h1").innerText="Calculator Turned off, Refresh to start.";
+                document.getElementById("calculator").innerHTML="";
+            })
+function getcalc(){
+	return document.getElementById("calctext").innerText;
+}
+function printcalc(num){
+	document.getElementById("calctext").innerText=num;
+}
+function getOutput(){
+	return document.getElementById("answer").innerText;
+}
+function printOutput(num){
+	if(num==""){
+		document.getElementById("answer").innerText=num;
+	}
+	else{
+		document.getElementById("answer").innerText=getFormattedNumber(num);
+	}	
+}
+function getFormattedNumber(num){
+	if(num=="-"){
+		return "";
+	}
+	var n = Number(num);
+	var value = n.toLocaleString("en");
+	return value;
+}
+function reverseNumberFormat(num){
+	return Number(num.replace(/,/g,''));
+}
+var op = document.getElementsByClassName("op");
+for(var i =0;i<op.length;i++){
+	op[i].addEventListener('click',function(){
+		if(this.id=="clear"){
+			printcalc("");
+			printOutput("");
+		}
+		else if(this.id=="backspace"){
+			var output=reverseNumberFormat(getOutput()).toString();
+			if(output){//if output has a value
+				output= output.substr(0,output.length-1);
+				printOutput(output);
+			}
+		}
+		else{
+			var output=getOutput();
+			var calc=getcalc();
+			if(output==""&&calc!=""){
+				if(isNaN(calc[calc.length-1])){
+					calc= calc.substr(0,calc.length-1);
+				}
+			}
+			if(output!="" || calc!=""){
+				output= output==""?output:reverseNumberFormat(output);
+				calc=calc+output;
+				if(this.id=="="){
+					var result=eval(calc);
+					printOutput(result);
+					printcalc("");
+				}
+				else{
+					calc=calc+this.id;
+					printcalc(calc);
+					printOutput("");
+				}
+			}
+		}
+		
+	});
+}
+var number = document.getElementsByClassName("number");
+for(var i =0;i<number.length;i++){
+	number[i].addEventListener('click',function(){
+        this.classList.add("fade")
+        setInterval(() => {
+            this.classList.remove("fade")
+        }, 100);
+       
+		var output=reverseNumberFormat(getOutput());
+		if(output!=NaN){ //if output is a number
+			output=output+this.id;
+			printOutput(output);
+		}
+	});
+}
+
+        </script>
+	</body>
+</html>
